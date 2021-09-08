@@ -352,6 +352,9 @@ func exportOutput(artifacts []string) (string, string, error) {
 }
 
 func readScheme(pth, schemeName string) (*xcscheme.Scheme, string, error) {
+	log.Infof("readScheme:")
+	log.Infof(pth)
+	log.Infof(schemeName)
 	var scheme *xcscheme.Scheme
 	var schemeContainerDir string
 
@@ -374,6 +377,12 @@ func readScheme(pth, schemeName string) (*xcscheme.Scheme, string, error) {
 
 		var containerProject string
 		scheme, containerProject, err = workspace.Scheme(schemeName)
+		log.Infof(scheme.Name)
+		log.Infof(scheme.Path)
+		for _, entry := range scheme.BuildAction.BuildActionEntries {
+			log.Infof(entry.BuildForArchiving)
+			log.Infof(entry.BuildableReference.BuildableName)
+		}
 
 		if err != nil {
 			return nil, "", fmt.Errorf("no scheme found with name: %s in workspace: %s, error: %s", schemeName, pth, err)
@@ -395,7 +404,7 @@ func findBuiltProject(scheme *xcscheme.Scheme, schemeContainerDir, configuration
 		return xcodeproj.XcodeProj{}, fmt.Errorf("no configuration provided nor default defined for the scheme's (%s) archive action", scheme.Name)
 	}
 
-	log.Infof("hoge")
+	log.Infof("findBuiltProject")
 	log.Infof(scheme.Name)
 	log.Infof(scheme.Path)
 	var archiveEntry xcscheme.BuildActionEntry
