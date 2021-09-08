@@ -395,8 +395,13 @@ func findBuiltProject(scheme *xcscheme.Scheme, schemeContainerDir, configuration
 		return xcodeproj.XcodeProj{}, fmt.Errorf("no configuration provided nor default defined for the scheme's (%s) archive action", scheme.Name)
 	}
 
+	log.Infof("hoge")
+	log.Infof(scheme.Name)
+	log.Infof(scheme.Path)
 	var archiveEntry xcscheme.BuildActionEntry
 	for _, entry := range scheme.BuildAction.BuildActionEntries {
+		log.Infof(entry.BuildForArchiving)
+		log.Infof(entry.BuildableReference.BuildableName)
 		if entry.BuildForArchiving != "YES" || !entry.BuildableReference.IsAppReference() {
 			continue
 		}
